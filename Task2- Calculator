@@ -1,0 +1,92 @@
+def add(x, y):
+    return x + y
+
+def subtract(x, y):
+    return x - y
+
+def multiply(x, y):
+    return x * y
+
+def divide(x, y):
+    if y == 0:
+        return "Error! Division by zero."
+    return x / y
+
+def modulus(x, y):
+    return x % y
+
+def exponentiate(x, y):
+    return x ** y
+
+def get_number(prompt):
+    while True:
+        try:
+            return float(input(prompt))
+        except ValueError:
+            print("Invalid input! Please enter a number.")
+
+def get_operation():
+    operations = {
+        '1': ('Addition', add),
+        '2': ('Subtraction', subtract),
+        '3': ('Multiplication', multiply),
+        '4': ('Division', divide),
+        '5': ('Modulus', modulus),
+        '6': ('Exponentiation', exponentiate)
+    }
+    
+    print("\nSelect operation:")
+    for key, (name, _) in operations.items():
+        print(f"{key}: {name}")
+    
+    while True:
+        choice = input("Enter choice (1/2/3/4/5/6): ")
+        if choice in operations:
+            return operations[choice]
+        else:
+            print("Invalid choice! Please select a valid operation.")
+
+def get_user_choice():
+    while True:
+        print("\nWhat would you like to do?")
+        print("1: Perform a calculation")
+        print("2: Exit")
+        choice = input("Enter choice (1/2): ")
+        if choice in ['1', '2']:
+            return choice
+        else:
+            print("Invalid choice! Please enter 1 or 2.")
+
+def is_result_too_large(result, threshold=1e18):
+    if isinstance(result, (int, float)) and abs(result) > threshold:
+        return True
+    return False
+
+def calculator():
+    print("Simple Text-Based Calculator")
+    
+    while True:
+        user_choice = get_user_choice()
+        
+        if user_choice == '2':  # Exit
+            print("Exiting the calculator. Goodbye!")
+            break
+        
+        # Select operation
+        operation_name, operation_func = get_operation()
+        
+        # Perform a calculation
+        num1 = get_number("Enter the first number: ")
+        num2 = get_number("Enter the second number: ")
+        
+        result = operation_func(num1, num2)
+        
+        if is_result_too_large(result):
+            print("\nInvalid result: Too large")
+        else:
+            print(f"\n{operation_name} of {num1} and {num2} is: {result}")
+        
+        print("\n----------\n")
+
+if __name__ == "__main__":
+    calculator()
